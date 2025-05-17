@@ -11,7 +11,7 @@ const TOKEN = "7647905012:AAGhEF9pQvplTQtmHRoVuumOfKz7te3UEZw"
 var bot *tgbotapi.BotAPI
 var chatId int64
 
-var scheduleBotNames = [3]string{"стивен", "стив", "кинг"}
+var fortuneTellerBotNames = [3]string{"стивен", "стив", "кинг"}
 
 var answers = []string{
 	"Иногда в жизни важно отпустить прошлое, чтобы сделать шаг вперёд",
@@ -64,7 +64,7 @@ func isMessageForFortuneTeller(update *tgbotapi.Update) bool {
 	}
 
 	msgInLowerCase := strings.ToLower(update.Message.Text)
-	for _, name := range scheduleBotNames {
+	for _, name := range fortuneTellerBotNames {
 		if strings.Contains(msgInLowerCase, name) {
 			return true
 		}
@@ -72,13 +72,13 @@ func isMessageForFortuneTeller(update *tgbotapi.Update) bool {
 	return false
 }
 
-func getScheduleBotAnswer() string {
+func getFortuneTellerBotAnswer() string {
 	index := rand.IntN(len(answers))
 	return answers[index]
 }
 
 func sendAnswer(update *tgbotapi.Update) {
-	msg := tgbotapi.NewMessage(chatId, getScheduleBotAnswer())
+	msg := tgbotapi.NewMessage(chatId, getFortuneTellerBotAnswer())
 	msg.ReplyToMessageID = update.Message.MessageID
 	bot.Send(msg)
 }
